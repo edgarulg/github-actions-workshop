@@ -43,8 +43,56 @@ jobs:
 
       - name: build app
         run: |
-          ./gradlew build
+          ./gradlew build -x test
 
       - name: end build
         run: |
           echo "eding build job"
+
+  test:
+    name: test app
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    steps:
+      - name: start test
+        run: |
+          echo "starting test job..."
+
+      - name: Checkout Code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: gradlew test
+        run: |
+          ./gradlew test
+
+      - name: end test
+        run: |
+          echo "ending test job..."
+
+  special-test:
+    name: special test app
+    runs-on: ubuntu-latest
+    needs: [setup, build, test]
+    strategy:
+      matrix:
+        greeding: [ hello, hola ]
+        person: [ world, people ]
+    steps:
+      - name: start special test
+        run: |
+          echo "starting test job for ${{ matrix.greeding }} ${{ matrix.person }}..."
+
+      - name: Checkout Code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: gradlew test
+        run: |
+          ./gradlew run --args "${{ matrix.greeding }} ${{ matrix.person }}"
+
+      - name: end special test
+        run: |
+          echo "ending test job for ${{ matrix.greeding }} ${{ matrix.person }} ..."
