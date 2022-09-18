@@ -4,14 +4,23 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+      - 'release/**'
+
 
 jobs:
   setup:
     runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.random.outputs.number }}
     steps:
       - name: echo message
+        id: random
         run: |
-          echo "Hello from GHA"
+          random=$((1 + $RANDOM % 6))
+          echo "##[set-output name=number::$random"
 
   build:
     runs-on: ubuntu-latest
@@ -19,7 +28,7 @@ jobs:
     steps:
       - name: start build
         run: |
-          echo "Starting build job...."
+          echo "Starting build job.... ${{needs.setup.outputs.number}} "
 
       - name: Checkout Code
         uses: actions/checkout@v1
