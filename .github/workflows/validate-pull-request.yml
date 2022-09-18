@@ -7,6 +7,7 @@ on:
 
 jobs:
   setup-up:
+    runs-on: ubuntu-latest
     steps:
       - name: echo message
         run: |
