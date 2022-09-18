@@ -6,10 +6,11 @@ package github.actions.workshop
 class App {
     val greeting: String
         get() {
-            return "Hello world."
+            return "From Kotlin!"
         }
 }
 
 fun main(args: Array<String>) {
-    println(App().greeting)
+    val message = App().greeting
+    println("${args[0]} ${args[1]} - $message")
 }
