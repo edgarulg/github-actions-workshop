@@ -27,8 +27,14 @@ jobs:
     needs: setup
     steps:
       - name: start build
+        if:
         run: |
-          echo "Starting build job.... ${{needs.setup.outputs.number}} "
+          echo "Starting build job...."
+
+      - name: print if is one
+        if: ${{needs.setup.outputs.number == 1}}
+        run: |
+          echo "the input number from setup is ${{needs.setup.outputs.number}}"
 
       - name: Checkout Code
         uses: actions/checkout@v1
