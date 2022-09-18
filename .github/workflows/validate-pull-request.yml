@@ -12,3 +12,23 @@ jobs:
       - name: echo message
         run: |
           echo "Hello from GHA"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: start build
+        run: |
+          echo "Starting build job...."
+
+      - name: Checkout Code
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+
+      - name: build app
+        run: |
+          ./gradlew build
+
+      - name: end build
+        run: |
+          echo "eding build job"
